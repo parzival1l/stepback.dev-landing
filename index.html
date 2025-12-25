@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>stepback.dev — Git-Style Conversational AI</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Branch your AI conversations like git branches. Explore tangents, maintain context, merge insights back.">
+  <meta name="keywords" content="AI chat, branching conversations, git-style, context management, LLM interface">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="stepback.dev — Branch Your Conversations">
+  <meta property="og:description" content="Git-style version control for AI chat. Never lose context again.">
+  <meta property="og:image" content="https://stepback.dev/assets/images/og-image.png">
+  <meta property="og:url" content="https://stepback.dev">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="stepback.dev">
+  <meta name="twitter:description" content="Git-style branching for AI conversations.">
+  <meta name="twitter:image" content="https://stepback.dev/assets/images/og-image.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/images/logo.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3v12"/>
+              <circle cx="6" cy="18" r="3"/>
+              <path d="M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              <path d="M6 6a9 9 0 0 1 9 9"/>
+            </svg>
+          </div>
+          stepback<span style="color: var(--primary)">.dev</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="/roadmap.html">Roadmap</a></li>
+          <li>
+            <a href="/blog/">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+              </svg>
+              Blog
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-cta">
+          <a href="/access.html" class="btn btn-primary cta-button" data-location="nav">
+            Launch App
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
+        <button class="mobile-toggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="hero-gradient hero-gradient-1"></div>
+      <div class="hero-gradient hero-gradient-2"></div>
+    </div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-badge">
+            <span>Private Beta — Request Access</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="highlight">Branch</span> your<br>conversations.
+          </h1>
+
+          <p class="hero-subtitle">
+            Git-style version control for AI chat. Explore tangents without losing context. Merge insights back when you're ready. Built <a href="https://github.com/parzival1l/stepback.dev" class="text-link" target="_blank" rel="noopener">open source</a>.
+          </p>
+
+          <div class="hero-actions">
+            <a href="/access.html" class="btn btn-primary cta-button" data-location="hero">
+              Request Access
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="#how-it-works" class="btn btn-secondary">
+              See How It Works
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="tree-container">
+            <svg class="tree-svg" viewBox="0 0 400 500" fill="none">
+              <!-- Connection lines -->
+              <path class="tree-path" d="M200 50 L200 120" stroke="var(--primary)" stroke-width="2" style="animation-delay: 0s"/>
+              <path class="tree-path" d="M200 120 L200 200" stroke="var(--primary)" stroke-width="2" style="animation-delay: 0.2s"/>
+              <path class="tree-path" d="M200 200 L120 280" stroke="var(--accent-purple)" stroke-width="2" style="animation-delay: 0.4s"/>
+              <path class="tree-path" d="M200 200 L280 280" stroke="var(--accent-blue)" stroke-width="2" style="animation-delay: 0.4s"/>
+              <path class="tree-path" d="M120 280 L120 360" stroke="var(--accent-purple)" stroke-width="2" style="animation-delay: 0.6s"/>
+              <path class="tree-path" d="M120 280 L60 360" stroke="var(--accent-green)" stroke-width="2" style="animation-delay: 0.6s"/>
+              <path class="tree-path" d="M280 280 L280 360" stroke="var(--accent-blue)" stroke-width="2" style="animation-delay: 0.6s"/>
+              <path class="tree-path" d="M120 360 L200 440" stroke="var(--primary)" stroke-width="2" stroke-dasharray="4 4" style="animation-delay: 0.8s"/>
+
+              <!-- Nodes -->
+              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.1s both">
+                <circle class="node-circle" cx="200" cy="50" r="16" fill="var(--bg-elevated)" stroke="var(--primary)" stroke-width="2"/>
+                <text class="node-label" x="200" y="54" text-anchor="middle">start</text>
+              </g>
+
+              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.3s both">
+                <circle class="node-circle" cx="200" cy="120" r="14" fill="var(--bg-elevated)" stroke="var(--primary)" stroke-width="2"/>
+              </g>
+
+              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.5s both">
+                <circle class="node-circle" cx="200" cy="200" r="16" fill="var(--primary)" stroke="var(--primary)" stroke-width="2"/>
+                <text class="node-label" x="200" y="204" text-anchor="middle" fill="var(--bg-deep)">main</text>
+              </g>
+
+              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.7s both">
+                <circle class="node-circle" cx="120" cy="280" r="14" fill="var(--bg-elevated)" stroke="var(--accent-purple)" stroke-width="2"/>
+                <text class="node-label" x="120" y="310" text-anchor="middle">tangent-1</text>
+              </g>
+
+              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.7s both">
+                <circle class="node-circle" cx="280" cy="280" r="14" fill="var(--bg-elevated)" stroke="var(--accent-blue)" stroke-width="2"/>
+                <text class="node-label" x="280" y="310" text-anchor="middle">explore</text>
+              </g>
+
+              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.9s both">
+                <circle class="node-circle" cx="60" cy="360" r="12" fill="var(--bg-elevated)" stroke="var(--accent-green)" stroke-width="2"/>
+                <text class="node-label" x="60" y="390" text-anchor="middle">debug</text>
+              </g>
+
+              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.9s both">
+                <circle class="node-circle" cx="120" cy="360" r="14" fill="var(--bg-elevated)" stroke="var(--accent-purple)" stroke-width="2"/>
+              </g>
+
+              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.9s both">
+                <circle class="node-circle" cx="280" cy="360" r="12" fill="var(--bg-elevated)" stroke="var(--accent-blue)" stroke-width="2"/>
+              </g>
+
+              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 1.1s both">
+                <circle class="node-circle" cx="200" cy="440" r="16" fill="var(--bg-elevated)" stroke="var(--primary)" stroke-width="2"/>
+                <text class="node-label" x="200" y="444" text-anchor="middle">merge</text>
+              </g>
+
+              <!-- Floating particles -->
+              <circle r="3" fill="var(--primary)" opacity="0.6" style="animation: float 3s ease-in-out infinite">
+                <animateMotion dur="4s" repeatCount="indefinite" path="M200,50 L200,200 L120,280 L120,360"/>
+              </circle>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem/Solution Section -->
+  <section id="problem">
+    <div class="container">
+      <div class="problem-grid">
+        <div class="problem-content animate-on-scroll">
+          <h2>Linear chat is a<br><span class="strike">dead end</span>.</h2>
+
+          <ul class="problem-list">
+            <li>
+              <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <p class="problem-text">
+                <strong>Ask a side question?</strong><br>
+                Your main context gets derailed.
+              </p>
+            </li>
+            <li>
+              <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+              <p class="problem-text">
+                <strong>Want to explore "what if"?</strong><br>
+                You're forced to start a new chat.
+              </p>
+            </li>
+            <li>
+              <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M16 16s-1.5-2-4-2-4 2-4 2"/>
+                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                <line x1="15" y1="9" x2="15.01" y2="9"/>
+              </svg>
+              <p class="problem-text">
+                <strong>Debugging a tangent?</strong><br>
+                Good luck finding your way back.
+              </p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="comparison-visual animate-on-scroll stagger-2">
+          <div class="comparison-box linear-chat">
+            <span class="comparison-label">Linear Chat</span>
+            <div class="chat-messages">
+              <div class="chat-msg user">How do I optimize this SQL query?</div>
+              <div class="chat-msg ai">You could add an index on the user_id column...</div>
+              <div class="chat-msg user">Wait, what's an index again?</div>
+              <div class="chat-msg ai derailed">An index is a data structure that...</div>
+              <div class="chat-msg user derailed">Actually, back to the query...</div>
+            </div>
+          </div>
+
+          <div class="comparison-box branching-chat">
+            <span class="comparison-label">stepback.dev</span>
+            <div class="chat-messages">
+              <div class="chat-msg user">How do I optimize this SQL query?</div>
+              <div class="chat-msg ai">You could add an index on the user_id column...</div>
+              <div class="branch-indicator">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M6 3v12M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 9a9 9 0 0 1-9 9"/>
+                </svg>
+                Branch: "What's an index?"
+              </div>
+              <div class="chat-msg user">Can you show me the optimized query?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Features</span>
+        <h2>Think in branches.<br>Work in branches.</h2>
+        <p>Built for developers who understand that great ideas rarely follow a straight line.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="glass-card feature-card animate-on-scroll stagger-1">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3v12"/>
+              <circle cx="6" cy="18" r="3"/>
+              <path d="M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              <path d="M6 6a9 9 0 0 1 9 9"/>
+            </svg>
+          </div>
+          <h3>Branch Anywhere</h3>
+          <p>Click any message to create a new path. Your original conversation stays exactly where you left it.</p>
+        </div>
+
+        <div class="glass-card feature-card animate-on-scroll stagger-2">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>Isolated Context</h3>
+          <p>Each branch maintains its own context window. Experiment freely without polluting your main thread.</p>
+        </div>
+
+        <div class="glass-card feature-card animate-on-scroll stagger-3">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <circle cx="4" cy="4" r="2"/>
+              <circle cx="20" cy="4" r="2"/>
+              <circle cx="4" cy="20" r="2"/>
+              <circle cx="20" cy="20" r="2"/>
+              <path d="M6 6l4.5 4.5M13.5 13.5L18 18M6 18l4.5-4.5M13.5 10.5L18 6"/>
+            </svg>
+          </div>
+          <h3>Visual Navigation</h3>
+          <p>See your entire conversation tree in an interactive graph. Jump to any point with a single click.</p>
+        </div>
+
+        <div class="glass-card feature-card animate-on-scroll stagger-4">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              <path d="M6 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              <path d="M6 21V9M18 15V3"/>
+              <path d="M6 12h12"/>
+            </svg>
+          </div>
+          <h3>Merge & Synthesize</h3>
+          <p>Found the answer in a side-quest? Summarize the branch and inject insights back into your main flow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">How It Works</span>
+        <h2>From linear to limitless<br>in three steps.</h2>
+      </div>
+
+      <div class="steps-container">
+        <div class="step animate-on-scroll">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Start a conversation</h3>
+            <p>Begin like any AI chat. Ask questions, get responses. The interface is familiar — until you need more.</p>
+          </div>
+          <div class="step-visual">
+            <svg viewBox="0 0 200 80" fill="none">
+              <rect x="10" y="10" width="120" height="24" rx="4" fill="var(--primary-dim)" opacity="0.5"/>
+              <rect x="70" y="46" width="120" height="24" rx="4" fill="var(--bg-surface)"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="step animate-on-scroll">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Branch when needed</h3>
+            <p>Hit a tangent? Click to branch off. Your main thread is preserved while you explore freely.</p>
+          </div>
+          <div class="step-visual">
+            <svg viewBox="0 0 200 80" fill="none">
+              <circle cx="40" cy="40" r="8" fill="var(--primary)"/>
+              <path d="M48 40 H80" stroke="var(--primary)" stroke-width="2"/>
+              <circle cx="88" cy="40" r="6" fill="var(--bg-surface)" stroke="var(--primary)" stroke-width="2"/>
+              <path d="M94 40 H120" stroke="var(--primary)" stroke-width="2"/>
+              <path d="M88 46 L88 60 L130 60" stroke="var(--accent-purple)" stroke-width="2"/>
+              <circle cx="138" cy="60" r="6" fill="var(--bg-surface)" stroke="var(--accent-purple)" stroke-width="2"/>
+              <circle cx="128" cy="40" r="6" fill="var(--bg-surface)" stroke="var(--primary)" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="step animate-on-scroll">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Navigate & merge</h3>
+            <p>Switch between branches instantly. When you find what you need, merge it back to your main path.</p>
+          </div>
+          <div class="step-visual">
+            <svg viewBox="0 0 200 80" fill="none">
+              <circle cx="30" cy="40" r="8" fill="var(--primary)"/>
+              <path d="M38 40 H60" stroke="var(--primary)" stroke-width="2"/>
+              <circle cx="68" cy="40" r="6" fill="var(--bg-surface)" stroke="var(--primary)" stroke-width="2"/>
+              <path d="M68 46 L68 60 L100 60" stroke="var(--accent-purple)" stroke-width="2"/>
+              <circle cx="108" cy="60" r="6" fill="var(--bg-surface)" stroke="var(--accent-purple)" stroke-width="2"/>
+              <path d="M74 40 H100" stroke="var(--primary)" stroke-width="2"/>
+              <circle cx="108" cy="40" r="6" fill="var(--bg-surface)" stroke="var(--primary)" stroke-width="2"/>
+              <path d="M108 54 L108 46" stroke="var(--accent-green)" stroke-width="2" stroke-dasharray="3 2"/>
+              <path d="M114 40 H140" stroke="var(--primary)" stroke-width="2"/>
+              <circle cx="148" cy="40" r="8" fill="var(--accent-green)"/>
+              <text x="148" y="44" text-anchor="middle" fill="var(--bg-deep)" font-size="8" font-family="var(--font-display)">✓</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Section -->
+  <section id="tech">
+    <div class="container">
+      <div class="tech-grid">
+        <div class="tech-content animate-on-scroll">
+          <span class="section-label">For Developers</span>
+          <h2>Built by developers,<br>for developers.</h2>
+          <p>Every message is a node. Every node knows its parent. Context is rebuilt dynamically from the path array — no expensive graph traversals.</p>
+
+          <div class="tech-stack">
+            <div class="tech-item">
+              <div class="tech-item-icon">⚛️</div>
+              <div class="tech-item-text">
+                <div class="tech-item-label">Frontend</div>
+                <div class="tech-item-value">React 19 + ReactFlow + Zustand</div>
+              </div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-item-icon">🐍</div>
+              <div class="tech-item-text">
+                <div class="tech-item-label">Backend</div>
+                <div class="tech-item-value">FastAPI (async Python)</div>
+              </div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-item-icon">🍃</div>
+              <div class="tech-item-text">
+                <div class="tech-item-label">Database</div>
+                <div class="tech-item-value">MongoDB + Beanie ODM</div>
+              </div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-item-icon">✨</div>
+              <div class="tech-item-text">
+                <div class="tech-item-label">AI Engine</div>
+                <div class="tech-item-value">Google Gemini 2.5 Flash, GPT 120B OSS, and more — slowly rolling out multiple providers</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block animate-on-scroll stagger-2">
+          <div class="code-header">
+            <span class="code-dot red"></span>
+            <span class="code-dot yellow"></span>
+            <span class="code-dot green"></span>
+          </div>
+          <div class="code-content">
+            <span class="comment">// Every node knows its lineage</span><br>
+            <span class="keyword">interface</span> <span class="value">ConversationNode</span> {<br>
+            &nbsp;&nbsp;<span class="property">id</span>: <span class="keyword">string</span>;<br>
+            &nbsp;&nbsp;<span class="property">parent_id</span>: <span class="keyword">string</span> | <span class="keyword">null</span>;<br>
+            &nbsp;&nbsp;<span class="property">path</span>: <span class="keyword">string</span>[];<br>
+            &nbsp;&nbsp;<span class="property">content</span>: <span class="keyword">string</span>;<br>
+            &nbsp;&nbsp;<span class="property">role</span>: <span class="string">"user"</span> | <span class="string">"assistant"</span>;<br>
+            }<br><br>
+            <span class="comment">// Context rebuilt in O(1) lookups</span><br>
+            <span class="keyword">const</span> <span class="value">getContext</span> = (<span class="property">node</span>) =><br>
+            &nbsp;&nbsp;node.<span class="property">path</span>.<span class="value">map</span>(<span class="property">id</span> => nodes[<span class="property">id</span>]);
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section id="cta">
+    <div class="cta-glow"></div>
+    <div class="container">
+      <div class="cta-content animate-on-scroll">
+        <h2>Ready to branch out?</h2>
+        <p>We're currently in private beta, rolling out access gradually. Request access or reach out to tell us about your needs.</p>
+        <div class="cta-actions">
+          <a href="/access.html" class="btn btn-primary cta-button" data-location="bottom">
+            Request Access
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo">
+            <div class="logo-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 3v12"/>
+                <circle cx="6" cy="18" r="3"/>
+                <path d="M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                <path d="M6 6a9 9 0 0 1 9 9"/>
+              </svg>
+            </div>
+            stepback<span style="color: var(--primary)">.dev</span>
+          </a>
+          <p>Git-style branching for AI conversations. Think in trees, not lines.</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="/roadmap.html">Roadmap</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="/blog/">Blog</a></li>
+            <li>
+              <a href="https://github.com/parzival1l/stepback.dev" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="mailto:hello@stepback.dev">Contact Us</a></li>
+            <li><a href="/access.html">Request Access</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2024 stepback.dev. All rights reserved.</p>
+        <p class="footer-tagline">Built with 🌿 for non-linear thinkers.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/main.js" defer></script>
+</body>
+</html>
