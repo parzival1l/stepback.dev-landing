@@ -207,3 +207,6 @@ marimo/_lsp/
 __marimo__/
 REPOSITORY_CHECKLIST.md
 .gitignore
+marketing-site-deployment-spec.md
+docs/*
+.firebase/hosting..cache
