@@ -1,10 +1,18 @@
 steps:
+  # Install Firebase CLI
+  - name: 'node:latest'
+    entrypoint: 'npm'
+    args: ['install', '-g', 'firebase-tools']
+
   # Deploy static site to Firebase Hosting
-  - name: 'gcr.io/$PROJECT_ID/firebase'
+  # Uses Cloud Build's default service account for authentication
+  - name: 'node:latest'
+    entrypoint: 'firebase'
     args:
-      - deploy
-      - --project=$PROJECT_ID
-      - --only=hosting
+      - 'deploy'
+      - '--project=$PROJECT_ID'
+      - '--only=hosting'
+      - '--non-interactive'
 
 # Optional: Faster builds, cleaner logs
 options:
