@@ -1,18 +1,13 @@
 steps:
-  # Install Firebase CLI
-  - name: 'node:latest'
-    entrypoint: 'npm'
-    args: ['install', '-g', 'firebase-tools']
-
-  # Deploy static site to Firebase Hosting
+  # Install Firebase CLI and deploy to Firebase Hosting
   # Uses Cloud Build's default service account for authentication
   - name: 'node:latest'
-    entrypoint: 'firebase'
+    entrypoint: 'bash'
     args:
-      - 'deploy'
-      - '--project=$PROJECT_ID'
-      - '--only=hosting'
-      - '--non-interactive'
+      - '-c'
+      - |
+        npm install -g firebase-tools
+        firebase deploy --project=$PROJECT_ID --only=hosting --non-interactive
 
 # Optional: Faster builds, cleaner logs
 options:
