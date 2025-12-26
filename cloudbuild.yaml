@@ -1,0 +1,14 @@
+steps:
+  # Deploy static site to Firebase Hosting
+  - name: 'gcr.io/$PROJECT_ID/firebase'
+    args:
+      - deploy
+      - --project=$PROJECT_ID
+      - --only=hosting
+
+# Optional: Faster builds, cleaner logs
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+# Optional: Get notified on Slack/email when builds complete
+# (can configure later in Cloud Build settings)
