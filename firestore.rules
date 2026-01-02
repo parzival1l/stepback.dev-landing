@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Waitlist collection: public write, no read
+    match /waitlist/{document} {
+      // Anyone can add their email to the waitlist
+      allow create: if isValidWaitlistEntry();
+
+      // No one can read, update, or delete (only via Admin SDK / Console)
+      allow read, update, delete: if false;
+    }
+
+    // Default: deny all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// Validation function for waitlist entries
+function isValidWaitlistEntry() {
+  let data = request.resource.data;
+
+  return data.keys().hasAll(['email', 'createdAt', 'source'])
+    && data.email is string
+    && data.email.size() > 0
+    && data.email.size() < 255
+    && data.email.matches('.*@.*\\..*')  // Basic email format
+    && data.source is string;
+}
