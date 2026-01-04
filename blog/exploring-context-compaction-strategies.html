@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exploring Backend Merge & Context Compaction Strategies — Blog</title>
+
+  <!-- SEO -->
+  <meta name="description" content="A deep dive into how Anthropic, Cognition, and Cursor handle context windows — from just-in-time retrieval to shadow workspaces.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Exploring Backend Merge & Context Compaction Strategies">
+  <meta property="og:description" content="A deep dive into how leading AI companies handle context windows and memory management.">
+  <meta property="og:url" content="https://stepback.dev/blog/exploring-context-compaction-strategies">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3v12"/>
+              <circle cx="6" cy="18" r="3"/>
+              <path d="M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              <path d="M6 6a9 9 0 0 1 9 9"/>
+            </svg>
+          </div>
+          stepback<span style="color: var(--primary)">.dev</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/#how-it-works">How It Works</a></li>
+          <li><a href="/roadmap.html">Roadmap</a></li>
+          <li>
+            <a href="/blog/">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+              </svg>
+              Blog
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-cta">
+          <a href="/access.html" class="btn btn-primary cta-button" data-location="nav">
+            Launch App
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
+        <button class="mobile-toggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Blog Post -->
+  <article class="blog-post" style="padding-top: 140px;">
+    <a href="/blog/" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Back to Blog
+    </a>
+
+    <header class="blog-post-header">
+      <div class="blog-post-meta">
+        <span>January 2026</span>
+        <span>•</span>
+        <span>Research</span>
+      </div>
+      <h1 class="blog-post-title">Exploring Backend Merge & Context Compaction Strategies</h1>
+      <p class="blog-post-subtitle">
+        How do leading AI companies manage context windows? We're researching strategies from Anthropic, Cognition, and Cursor to inform stepback.dev's architecture.
+      </p>
+    </header>
+
+    <div class="blog-post-content">
+      <p>
+        As we build stepback.dev, one of the most fascinating engineering challenges is <strong>context management</strong>. When you branch a conversation, how do you preserve meaningful context without overwhelming the model? When branches merge, how do you reconcile divergent histories?
+      </p>
+
+      <p>
+        We've been researching how leading AI companies approach these problems. Recent engineering blogs reveal that the industry has moved beyond simple "large context windows" — sophisticated architectural strategies like "context anxiety" management, shadow workspaces, and just-in-time retrieval are now the norm.
+      </p>
+
+      <h2>Anthropic: Just-in-Time Retrieval</h2>
+
+      <p>
+        Anthropic's strategy focuses on minimizing the "cognitive load" on the model by keeping the context window clean.
+      </p>
+
+      <p>
+        <strong>Just-in-Time Context Loading:</strong> Instead of dumping an entire codebase into the context window (which can confuse the model), Claude Code uses lightweight references — file paths, function names — and retrieves full content only when necessary. This mimics human cognition: using an "index" to find information rather than memorizing everything.
+      </p>
+
+      <p>
+        <strong>Contextual Retrieval:</strong> Standard RAG often fails because small chunks lose meaning when isolated. Anthropic solved this by generating a concise explanation for <em>each chunk</em> before embedding it. For example, a chunk containing <code>def calculate_metric(x)...</code> is stored with added text: <em>"This function calculates revenue for the Q3 dashboard component"</em>.
+      </p>
+
+      <blockquote>
+        "The Model Context Protocol (MCP) allows models to 'connect' to data sources and fetch only the relevant 'active' context dynamically, rather than relying on a static context snapshot."
+      </blockquote>
+
+      <h2>Cognition: Managing "Context Anxiety"</h2>
+
+      <p>
+        The team behind Devin identified a phenomenon they call <strong>"Context Anxiety"</strong> — a behavioral change where model performance degrades as it senses the context window filling up.
+      </p>
+
+      <p>
+        When nearing the context limit, models become "anxious," taking shortcuts or leaving tasks incomplete. To counter this, Devin proactively summarizes its own progress into external files (like <code>CHANGELOG.md</code> or <code>SUMMARY.md</code>) to "offload" memory before the context fills up.
+      </p>
+
+      <p>
+        <strong>Single-Threaded Continuous Context:</strong> Unlike multi-agent systems where context is fragmented across different "workers," Cognition intentionally uses a single-agent architecture. This ensures that "implicit decisions" made in previous steps are preserved in a unified history, preventing the "amnesia" that occurs when handing off tasks between agents.
+      </p>
+
+      <h2>Cursor: The Shadow Workspace</h2>
+
+      <p>
+        Cursor uses a hybrid approach that combines fast, local context with a "Shadow Workspace" to validate the model's understanding before you even see it.
+      </p>
+
+      <p>
+        <strong>Shadow Workspace:</strong> Cursor maintains a hidden, parallel version of your codebase. When the AI proposes a change, it first applies it in this "shadow" environment to check for compiler errors or linting issues. The context isn't just <em>textual</em> — it's <em>functional</em>, validated by a real compiler before being presented to the user.
+      </p>
+
+      <p>
+        <strong>Speculative Execution:</strong> Cursor doesn't just look at what you typed; it predicts where you'll go next. It uses "speculative execution" to pre-generate likely edits and "Model Orchestration" to mix fast models (for instant cursor jumps) with slower, smarter models (for complex logic).
+      </p>
+
+      <p>
+        <strong>Surgical Context via Embeddings:</strong> Cursor indexes your entire repository into vector embeddings but avoids "context chaos" by being surgical — pulling only files that are semantically relevant to the active task, rather than flooding the window.
+      </p>
+
+      <h2>What This Means for stepback.dev</h2>
+
+      <p>
+        Building a branching conversation tool means we need to think carefully about these strategies:
+      </p>
+
+      <ul>
+        <li><strong>Branch context inheritance:</strong> When you branch, what context travels with you? JIT retrieval suggests we should carry references, not full content.</li>
+        <li><strong>Merge reconciliation:</strong> When branches merge, how do we reconcile divergent explorations? Cognition's "unified history" concept is instructive.</li>
+        <li><strong>Context anxiety prevention:</strong> Long conversations with many branches could trigger anxiety behaviors. Proactive summarization might be the answer.</li>
+        <li><strong>Validation before presentation:</strong> Cursor's shadow workspace concept could ensure branches are "healthy" before users commit to them.</li>
+      </ul>
+
+      <p>
+        We're actively exploring these patterns as we architect stepback.dev's backend. If you're working on similar problems or have insights to share, we'd love to hear from you.
+      </p>
+
+      <h2>Summary of Industry Approaches</h2>
+
+      <div style="overflow-x: auto; margin: 32px 0;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--glass-border);">
+              <th style="text-align: left; padding: 12px; color: var(--primary);">Company</th>
+              <th style="text-align: left; padding: 12px; color: var(--primary);">Core Strategy</th>
+              <th style="text-align: left; padding: 12px; color: var(--primary);">Unique Feature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--glass-border);">
+              <td style="padding: 12px; font-weight: 600;">Anthropic</td>
+              <td style="padding: 12px;">Just-in-Time Retrieval</td>
+              <td style="padding: 12px;">Contextual Retrieval (adding context summaries to chunks)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--glass-border);">
+              <td style="padding: 12px; font-weight: 600;">Cognition</td>
+              <td style="padding: 12px;">Anxiety Management</td>
+              <td style="padding: 12px;">Proactive Summarization (offloading memory to files)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--glass-border);">
+              <td style="padding: 12px; font-weight: 600;">Cursor</td>
+              <td style="padding: 12px;">Functional Context</td>
+              <td style="padding: 12px;">Shadow Workspace (validating changes with a hidden compiler)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        This is just the beginning of our exploration. As we continue building, we'll share more insights about how these strategies translate into a branching conversation architecture.
+      </p>
+
+      <p style="margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--glass-border);">
+        — The stepback.dev team
+      </p>
+    </div>
+  </article>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo">
+            <div class="logo-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 3v12"/>
+                <circle cx="6" cy="18" r="3"/>
+                <path d="M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                <path d="M6 6a9 9 0 0 1 9 9"/>
+              </svg>
+            </div>
+            stepback<span style="color: var(--primary)">.dev</span>
+          </a>
+          <p>Git-style branching for AI conversations. Think in trees, not lines.</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="/#features">Features</a></li>
+            <li><a href="/#how-it-works">How It Works</a></li>
+            <li><a href="/roadmap.html">Roadmap</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="/blog/">Blog</a></li>
+            <li>
+              <a href="https://github.com/parzival1l/stepback.dev" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="mailto:hello@stepback.dev">Contact Us</a></li>
+            <li><a href="/access.html">Request Access</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2024 stepback.dev. All rights reserved.</p>
+        <p class="footer-tagline">Built with 🌿 for non-linear thinkers.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/main.js" defer></script>
+</body>
+</html>
+
