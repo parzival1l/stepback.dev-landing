@@ -120,65 +120,149 @@
         </div>
 
         <div class="hero-visual">
-          <div class="tree-container">
-            <svg class="tree-svg" viewBox="0 0 400 500" fill="none">
-              <!-- Connection lines -->
-              <path class="tree-path" d="M200 50 L200 120" stroke="var(--primary)" stroke-width="2" style="animation-delay: 0s"/>
-              <path class="tree-path" d="M200 120 L200 200" stroke="var(--primary)" stroke-width="2" style="animation-delay: 0.2s"/>
-              <path class="tree-path" d="M200 200 L120 280" stroke="var(--accent-purple)" stroke-width="2" style="animation-delay: 0.4s"/>
-              <path class="tree-path" d="M200 200 L280 280" stroke="var(--accent-blue)" stroke-width="2" style="animation-delay: 0.4s"/>
-              <path class="tree-path" d="M120 280 L120 360" stroke="var(--accent-purple)" stroke-width="2" style="animation-delay: 0.6s"/>
-              <path class="tree-path" d="M120 280 L60 360" stroke="var(--accent-green)" stroke-width="2" style="animation-delay: 0.6s"/>
-              <path class="tree-path" d="M280 280 L280 360" stroke="var(--accent-blue)" stroke-width="2" style="animation-delay: 0.6s"/>
-              <path class="tree-path" d="M120 360 L200 440" stroke="var(--primary)" stroke-width="2" stroke-dasharray="4 4" style="animation-delay: 0.8s"/>
+          <div class="branch-tree" id="branchTree">
+            <!-- Ambient glow layer -->
+            <div class="tree-ambient"></div>
+
+            <!-- Full SVG with paths and nodes -->
+            <svg class="tree-svg" viewBox="0 0 400 520" preserveAspectRatio="xMidYMid meet">
+              <!-- Branch paths -->
+              <g class="branch-paths">
+                <!-- MAIN BRANCH (thick, prominent) - runs all the way down -->
+                <path class="branch-path main-branch" data-branch="main" d="M200 25 L200 65 L200 105 L200 145 L200 185 L200 225 L200 305 L200 385 L200 425 L200 465" stroke="#d97757" stroke-width="4" fill="none"/>
+
+                <!-- EXPLORE branch - forks EARLY from main (at y=105) - goes RIGHT -->
+                <path class="branch-path secondary-branch" data-branch="explore" d="M200 105 C220 115, 260 130, 300 145 L300 185 L300 225" stroke="#6b9bd1" stroke-width="2" fill="none"/>
+
+                <!-- TANGENT branch - forks LATER from main (at y=225) - goes LEFT -->
+                <path class="branch-path secondary-branch" data-branch="tangent" d="M200 225 C180 235, 140 250, 100 265 L100 305 L100 345" stroke="#a98bd4" stroke-width="2" fill="none"/>
+
+                <!-- DEBUG branch - forks from EXPLORE (at y=185) - independent -->
+                <path class="branch-path secondary-branch" data-branch="debug" d="M300 185 C320 195, 340 210, 355 235 L355 275" stroke="#7cb97e" stroke-width="1.5" fill="none"/>
+
+                <!-- MERGE: Dotted line from TANGENT back to MAIN (at y=385) -->
+                <path class="branch-path merge-path" data-branch="merge" d="M100 345 C120 365, 160 380, 200 385" stroke="#a98bd4" stroke-width="2" stroke-dasharray="6 4" fill="none"/>
+              </g>
+
+              <!-- Flowing particles -->
+              <g class="flow-particles">
+                <circle class="particle particle-main" r="4" fill="#d97757">
+                  <animateMotion dur="4s" repeatCount="indefinite" path="M200 25 L200 65 L200 105 L200 145 L200 185 L200 225 L200 305 L200 385 L200 425 L200 465"/>
+                </circle>
+                <circle class="particle particle-explore" r="3" fill="#6b9bd1">
+                  <animateMotion dur="2s" repeatCount="indefinite" begin="0.8s" path="M200 105 C220 115, 260 130, 300 145 L300 185 L300 225"/>
+                </circle>
+                <circle class="particle particle-tangent" r="3" fill="#a98bd4">
+                  <animateMotion dur="2s" repeatCount="indefinite" begin="1.5s" path="M200 225 C180 235, 140 250, 100 265 L100 305 L100 345"/>
+                </circle>
+              </g>
 
               <!-- Nodes -->
-              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.1s both">
-                <circle class="node-circle" cx="200" cy="50" r="16" fill="var(--bg-elevated)" stroke="var(--primary)" stroke-width="2"/>
-                <text class="node-label" x="200" y="54" text-anchor="middle">start</text>
-              </g>
+              <g class="tree-nodes">
+                <!-- ========== MAIN BRANCH NODES ========== -->
 
-              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.3s both">
-                <circle class="node-circle" cx="200" cy="120" r="14" fill="var(--bg-elevated)" stroke="var(--primary)" stroke-width="2"/>
-              </g>
+                <!-- init (start of conversation) -->
+                <g class="tree-node node-main" data-node="init" style="--delay: 0s">
+                  <circle class="node-outer" cx="200" cy="25" r="12" fill="#1a1816" stroke="#d97757" stroke-width="3"/>
+                  <circle cx="200" cy="25" r="5" fill="#d97757" opacity="0.4"/>
+                  <text class="node-label" x="220" y="30" text-anchor="start">init</text>
+                </g>
 
-              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.5s both">
-                <circle class="node-circle" cx="200" cy="200" r="16" fill="var(--primary)" stroke="var(--primary)" stroke-width="2"/>
-                <text class="node-label" x="200" y="204" text-anchor="middle" fill="var(--bg-deep)">main</text>
-              </g>
+                <!-- main node 2 -->
+                <g class="tree-node node-main" data-node="main-2" style="--delay: 0.05s">
+                  <circle class="node-outer" cx="200" cy="65" r="8" fill="#1a1816" stroke="#d97757" stroke-width="3"/>
+                </g>
 
-              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.7s both">
-                <circle class="node-circle" cx="120" cy="280" r="14" fill="var(--bg-elevated)" stroke="var(--accent-purple)" stroke-width="2"/>
-                <text class="node-label" x="120" y="310" text-anchor="middle">tangent-1</text>
-              </g>
+                <!-- main node 3 - EXPLORE branches off here -->
+                <g class="tree-node node-main" data-node="main-3" style="--delay: 0.1s">
+                  <circle class="node-outer" cx="200" cy="105" r="10" fill="#d97757" stroke="#d97757" stroke-width="3"/>
+                </g>
 
-              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.7s both">
-                <circle class="node-circle" cx="280" cy="280" r="14" fill="var(--bg-elevated)" stroke="var(--accent-blue)" stroke-width="2"/>
-                <text class="node-label" x="280" y="310" text-anchor="middle">explore</text>
-              </g>
+                <!-- main node 4 -->
+                <g class="tree-node node-main" data-node="main-4" style="--delay: 0.15s">
+                  <circle class="node-outer" cx="200" cy="145" r="8" fill="#1a1816" stroke="#d97757" stroke-width="3"/>
+                </g>
 
-              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.9s both">
-                <circle class="node-circle" cx="60" cy="360" r="12" fill="var(--bg-elevated)" stroke="var(--accent-green)" stroke-width="2"/>
-                <text class="node-label" x="60" y="390" text-anchor="middle">debug</text>
-              </g>
+                <!-- main node 5 -->
+                <g class="tree-node node-main" data-node="main-5" style="--delay: 0.2s">
+                  <circle class="node-outer" cx="200" cy="185" r="8" fill="#1a1816" stroke="#d97757" stroke-width="3"/>
+                </g>
 
-              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.9s both">
-                <circle class="node-circle" cx="120" cy="360" r="14" fill="var(--bg-elevated)" stroke="var(--accent-purple)" stroke-width="2"/>
-              </g>
+                <!-- main node 6 - TANGENT branches off here -->
+                <g class="tree-node node-main" data-node="main-6" style="--delay: 0.25s">
+                  <circle class="node-outer" cx="200" cy="225" r="10" fill="#d97757" stroke="#d97757" stroke-width="3"/>
+                </g>
 
-              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 0.9s both">
-                <circle class="node-circle" cx="280" cy="360" r="12" fill="var(--bg-elevated)" stroke="var(--accent-blue)" stroke-width="2"/>
-              </g>
+                <!-- main node 7 -->
+                <g class="tree-node node-main" data-node="main-7" style="--delay: 0.35s">
+                  <circle class="node-outer" cx="200" cy="305" r="8" fill="#1a1816" stroke="#d97757" stroke-width="3"/>
+                </g>
 
-              <g class="tree-node" style="animation: fadeIn 0.5s ease-out 1.1s both">
-                <circle class="node-circle" cx="200" cy="440" r="16" fill="var(--bg-elevated)" stroke="var(--primary)" stroke-width="2"/>
-                <text class="node-label" x="200" y="444" text-anchor="middle">merge</text>
-              </g>
+                <!-- main node 8 - MERGE point (tangent merges back here) -->
+                <g class="tree-node node-main node-merge-point" data-node="merge-point" style="--delay: 0.5s">
+                  <circle class="node-outer" cx="200" cy="385" r="11" fill="#d97757" stroke="#d97757" stroke-width="3"/>
+                  <text class="node-label node-label-badge" x="220" y="390" text-anchor="start">merged</text>
+                </g>
 
-              <!-- Floating particles -->
-              <circle r="3" fill="var(--primary)" opacity="0.6" style="animation: float 3s ease-in-out infinite">
-                <animateMotion dur="4s" repeatCount="indefinite" path="M200,50 L200,200 L120,280 L120,360"/>
-              </circle>
+                <!-- main node 9 -->
+                <g class="tree-node node-main" data-node="main-9" style="--delay: 0.6s">
+                  <circle class="node-outer" cx="200" cy="425" r="8" fill="#1a1816" stroke="#d97757" stroke-width="3"/>
+                </g>
+
+                <!-- main node 10 (end) -->
+                <g class="tree-node node-main" data-node="main-end" style="--delay: 0.65s">
+                  <circle class="node-outer" cx="200" cy="465" r="8" fill="#1a1816" stroke="#d97757" stroke-width="3"/>
+                </g>
+
+                <!-- ========== EXPLORE BRANCH (blue, right side) ========== -->
+
+                <!-- explore node 1 -->
+                <g class="tree-node node-blue" data-node="explore-1" style="--delay: 0.2s">
+                  <circle class="node-outer" cx="300" cy="145" r="9" fill="#1a1816" stroke="#6b9bd1" stroke-width="2"/>
+                  <text class="node-label" x="320" y="150" text-anchor="start">explore</text>
+                </g>
+
+                <!-- explore node 2 - DEBUG branches off here -->
+                <g class="tree-node node-blue" data-node="explore-2" style="--delay: 0.25s">
+                  <circle class="node-outer" cx="300" cy="185" r="8" fill="#1a1816" stroke="#6b9bd1" stroke-width="2"/>
+                </g>
+
+                <!-- explore node 3 (end) -->
+                <g class="tree-node node-blue" data-node="explore-3" style="--delay: 0.3s">
+                  <circle class="node-outer" cx="300" cy="225" r="8" fill="#1a1816" stroke="#6b9bd1" stroke-width="2"/>
+                </g>
+
+                <!-- ========== TANGENT BRANCH (purple, left side) ========== -->
+
+                <!-- tangent node 1 -->
+                <g class="tree-node node-purple" data-node="tangent-1" style="--delay: 0.35s">
+                  <circle class="node-outer" cx="100" cy="265" r="9" fill="#1a1816" stroke="#a98bd4" stroke-width="2"/>
+                  <text class="node-label" x="80" y="270" text-anchor="end">tangent</text>
+                </g>
+
+                <!-- tangent node 2 -->
+                <g class="tree-node node-purple" data-node="tangent-2" style="--delay: 0.4s">
+                  <circle class="node-outer" cx="100" cy="305" r="8" fill="#1a1816" stroke="#a98bd4" stroke-width="2"/>
+                </g>
+
+                <!-- tangent node 3 (merges back to main) -->
+                <g class="tree-node node-purple" data-node="tangent-3" style="--delay: 0.45s">
+                  <circle class="node-outer" cx="100" cy="345" r="9" fill="#1a1816" stroke="#a98bd4" stroke-width="2"/>
+                </g>
+
+                <!-- ========== DEBUG BRANCH (green, far right) ========== -->
+
+                <!-- debug node 1 -->
+                <g class="tree-node node-green" data-node="debug-1" style="--delay: 0.35s">
+                  <circle class="node-outer" cx="355" cy="235" r="7" fill="#1a1816" stroke="#7cb97e" stroke-width="2"/>
+                  <text class="node-label" x="370" y="240" text-anchor="start">debug</text>
+                </g>
+
+                <!-- debug node 2 (end) -->
+                <g class="tree-node node-green" data-node="debug-2" style="--delay: 0.4s">
+                  <circle class="node-outer" cx="355" cy="275" r="7" fill="#1a1816" stroke="#7cb97e" stroke-width="2"/>
+                </g>
+              </g>
             </svg>
           </div>
         </div>

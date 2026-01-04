@@ -27,7 +27,10 @@
 
   // ===========================
   // Intersection Observer for scroll animations
+  // (Fallback for browsers without scroll-timeline support)
   // ===========================
+  const supportsScrollTimeline = CSS.supports('animation-timeline', 'scroll()');
+
   const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -41,9 +44,12 @@
     });
   }, observerOptions);
 
-  document.querySelectorAll('.animate-on-scroll').forEach(el => {
-    observer.observe(el);
-  });
+  // Only use JS-based animations if CSS scroll-timeline isn't supported
+  if (!supportsScrollTimeline) {
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      observer.observe(el);
+    });
+  }
 
   // ===========================
   // Navigation scroll effect
@@ -51,18 +57,12 @@
   const nav = document.getElementById('nav');
 
   if (nav) {
-    let lastScroll = 0;
-
     window.addEventListener('scroll', () => {
-      const currentScroll = window.scrollY;
-
-      if (currentScroll > 50) {
+      if (window.scrollY > 50) {
         nav.classList.add('scrolled');
       } else {
         nav.classList.remove('scrolled');
       }
-
-      lastScroll = currentScroll;
     });
   }
 
@@ -213,6 +213,189 @@
   document.addEventListener('DOMContentLoaded', () => {
     // Add loaded class for any initial animations
     document.body.classList.add('loaded');
+
+    // Initialize tree particles
+    initTreeParticles();
+
+    // Initialize card hover glow tracking
+    initCardGlowTracking();
+
+    // Initialize page transitions
+    initPageTransitions();
   });
+
+  // ===========================
+  // Branch Tree Initialization
+  // ===========================
+  function initTreeParticles() {
+    // Particles are now handled via SVG animateMotion
+    // This function is kept for compatibility but no longer creates HTML particles
+    const tree = document.getElementById('branchTree');
+    if (!tree) return;
+
+    // Tree is fully SVG-based now, animations handled in CSS/SVG
+  }
+
+  // ===========================
+  // Card Glow Effect (Mouse Tracking)
+  // ===========================
+  function initCardGlowTracking() {
+    const cards = document.querySelectorAll('.glass-card');
+
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+        card.style.setProperty('--mouse-x', `${x}%`);
+        card.style.setProperty('--mouse-y', `${y}%`);
+      });
+    });
+  }
+
+  // ===========================
+  // Page Transitions
+  // ===========================
+  function initPageTransitions() {
+    // Check if View Transitions API is supported
+    const supportsViewTransitions = 'startViewTransition' in document;
+
+    // Handle internal link clicks
+    document.querySelectorAll('a[href]').forEach(link => {
+      const href = link.getAttribute('href');
+
+      // Skip external links, anchors, and special protocols
+      if (!href ||
+          href.startsWith('#') ||
+          href.startsWith('mailto:') ||
+          href.startsWith('tel:') ||
+          href.startsWith('http') ||
+          link.target === '_blank') {
+        return;
+      }
+
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (supportsViewTransitions) {
+          // Use View Transitions API
+          document.startViewTransition(() => {
+            window.location.href = href;
+          });
+        } else {
+          // Fallback: Add transition class, then navigate
+          document.body.classList.add('page-transitioning');
+
+          setTimeout(() => {
+            window.location.href = href;
+          }, 300);
+        }
+      });
+    });
+  }
+
+  // ===========================
+  // Hero Parallax Effect (Scroll-based)
+  // ===========================
+  let ticking = false;
+
+  function updateParallax() {
+    const scrollY = window.scrollY;
+    const heroVisual = document.querySelector('.hero-visual');
+    const heroBg = document.querySelector('.hero-bg');
+
+    if (heroVisual && scrollY < window.innerHeight) {
+      // Subtle parallax on the tree
+      const parallaxAmount = scrollY * 0.15;
+      heroVisual.style.transform = `translateY(${parallaxAmount}px)`;
+    }
+
+    if (heroBg && scrollY < window.innerHeight) {
+      // Move gradients slightly on scroll
+      const gradients = heroBg.querySelectorAll('.hero-gradient');
+      gradients.forEach((gradient, index) => {
+        const direction = index % 2 === 0 ? 1 : -1;
+        const amount = scrollY * 0.08 * direction;
+        gradient.style.transform = `translate(${amount}px, ${amount * 0.5}px)`;
+      });
+    }
+
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  });
+
+  // ===========================
+  // SVG Node Interactions
+  // ===========================
+  function initNodeInteractions() {
+    const nodes = document.querySelectorAll('.tree-node');
+
+    nodes.forEach(node => {
+      node.addEventListener('mouseenter', () => {
+        const nodeName = node.dataset.node;
+        highlightBranchPath(nodeName);
+      });
+
+      node.addEventListener('mouseleave', () => {
+        resetBranchPaths();
+      });
+    });
+  }
+
+  function highlightBranchPath(nodeName) {
+    const nodePathMap = {
+      // Main branch nodes (vertical trunk)
+      'init': ['main'],
+      'main-2': ['main'],
+      'main-3': ['main', 'explore'],
+      'main-4': ['main'],
+      'main-5': ['main'],
+      'main-6': ['main', 'tangent'],
+      'main-7': ['main'],
+      'merge-point': ['main', 'merge'],
+      'main-9': ['main'],
+      'main-end': ['main'],
+      // Explore branch nodes (branches RIGHT at y=105)
+      'explore-1': ['explore'],
+      'explore-2': ['explore', 'debug'],
+      'explore-3': ['explore'],
+      // Tangent branch nodes (branches LEFT at y=225)
+      'tangent-1': ['tangent'],
+      'tangent-2': ['tangent'],
+      'tangent-3': ['tangent', 'merge'],
+      // Debug branch nodes (branches from explore)
+      'debug-1': ['debug'],
+      'debug-2': ['debug']
+    };
+
+    const connectedPaths = nodePathMap[nodeName] || [];
+
+    document.querySelectorAll('.branch-path').forEach(path => {
+      const branchName = path.dataset.branch;
+      if (connectedPaths.includes(branchName)) {
+        path.style.strokeWidth = (parseFloat(path.getAttribute('stroke-width')) + 1) + '';
+        path.style.opacity = '1';
+      } else {
+        path.style.opacity = '0.2';
+      }
+    });
+  }
+
+  function resetBranchPaths() {
+    document.querySelectorAll('.branch-path').forEach(path => {
+      path.style.strokeWidth = '';
+      path.style.opacity = '';
+    });
+  }
+
+  // Initialize node interactions after DOM is ready
+  document.addEventListener('DOMContentLoaded', initNodeInteractions);
 
 })();

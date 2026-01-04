@@ -181,12 +181,14 @@ section {
 
 /* Glass cards */
 .glass-card {
+  position: relative;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-radius: 16px;
   backdrop-filter: blur(12px);
   padding: 32px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
 .glass-card:hover {
@@ -1630,4 +1632,450 @@ footer {
     width: 100%;
     justify-content: center;
   }
+}
+
+/* ===========================
+   22. BRANCH TREE VISUALIZATION
+   =========================== */
+.branch-tree {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+}
+
+/* Simplified ambient glow - single gradient, no animation */
+.tree-ambient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 40% at 50% 40%, rgba(217, 119, 87, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Main SVG */
+.tree-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Branch Paths - simplified animations */
+.branch-path {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: drawBranch 1s ease-out forwards;
+  transition: opacity 0.2s ease;
+}
+
+/* Main branch is more prominent */
+.main-branch {
+  animation-delay: 0s;
+}
+
+/* Secondary branches draw after main */
+.secondary-branch {
+  animation-delay: 0.3s;
+}
+
+.branch-path[data-branch="green"] {
+  animation-delay: 0.5s;
+}
+
+/* Merge path draws last with flowing dash animation */
+.merge-path {
+  animation: drawBranch 0.8s ease-out 0.6s forwards, dashFlow 1.5s linear 1.5s infinite;
+}
+
+@keyframes drawBranch {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes dashFlow {
+  to { stroke-dashoffset: -20; }
+}
+
+/* Flowing Particles - simplified */
+.flow-particles .particle {
+  opacity: 0;
+  animation: particleFade 0.3s ease-out 1s forwards;
+}
+
+.particle-purple { animation-delay: 1.2s; }
+.particle-blue { animation-delay: 1.4s; }
+
+@keyframes particleFade {
+  to { opacity: 0.85; }
+}
+
+/* SVG Nodes - simplified appearance animation */
+.tree-node {
+  cursor: pointer;
+  opacity: 0;
+  animation: svgNodeAppear 0.3s ease-out forwards;
+  animation-delay: calc(var(--delay, 0s) + 0.1s);
+}
+
+@keyframes svgNodeAppear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Node hover effects - simplified */
+.tree-node .node-outer {
+  transition: transform 0.2s ease;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.tree-node:hover .node-outer {
+  transform: scale(1.15);
+}
+
+/* Node Labels */
+.tree-node .node-label {
+  font-family: var(--font-display);
+  font-size: 10px;
+  fill: var(--text-muted);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.tree-node:hover .node-label {
+  opacity: 1;
+}
+
+.tree-node .node-label-badge {
+  font-size: 9px;
+  font-weight: 600;
+  fill: var(--primary);
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .branch-tree {
+    min-height: 380px;
+  }
+}
+
+@media (max-width: 600px) {
+  .branch-tree {
+    min-height: 320px;
+  }
+
+  .tree-svg {
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+}
+
+/* ===========================
+   23. PAGE TRANSITIONS (View Transitions API)
+   =========================== */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: fadeSlideOut 0.3s ease-out forwards;
+}
+
+::view-transition-new(root) {
+  animation: fadeSlideIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fallback page transition for non-supporting browsers */
+.page-transitioning {
+  animation: pageExit 0.3s ease-out forwards;
+}
+
+@keyframes pageExit {
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+/* ===========================
+   24. SCROLL-LINKED ANIMATIONS
+   =========================== */
+
+/* Hero parallax layers */
+.hero-gradient-1 {
+  animation: parallaxFloat 20s ease-in-out infinite;
+}
+
+.hero-gradient-2 {
+  animation: parallaxFloat 25s ease-in-out infinite reverse;
+}
+
+@keyframes parallaxFloat {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(20px, -30px); }
+  50% { transform: translate(-10px, 20px); }
+  75% { transform: translate(30px, 10px); }
+}
+
+/* Scroll-driven section reveals */
+@supports (animation-timeline: scroll()) {
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(60px);
+    animation: scrollReveal linear forwards;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+
+  @keyframes scrollReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Staggered delays for scroll animation */
+  .stagger-1 { animation-range: entry 5% entry 45%; }
+  .stagger-2 { animation-range: entry 10% entry 50%; }
+  .stagger-3 { animation-range: entry 15% entry 55%; }
+  .stagger-4 { animation-range: entry 20% entry 60%; }
+
+  /* Hero title scroll effect */
+  .hero-title {
+    animation: heroTitleScroll linear forwards;
+    animation-timeline: scroll();
+    animation-range: 0vh 50vh;
+  }
+
+  @keyframes heroTitleScroll {
+    to {
+      opacity: 0.3;
+      transform: translateY(-30px) scale(0.95);
+    }
+  }
+
+  /* Feature cards scale on scroll */
+  .feature-card {
+    animation: cardScroll linear forwards;
+    animation-timeline: view();
+    animation-range: entry 0% cover 50%;
+  }
+
+  @keyframes cardScroll {
+    from {
+      opacity: 0.5;
+      transform: scale(0.9) translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  /* CTA glow intensifies on scroll */
+  .cta-glow {
+    animation: ctaGlowScroll linear forwards;
+    animation-timeline: view();
+    animation-range: entry 0% cover 60%;
+  }
+
+  @keyframes ctaGlowScroll {
+    from {
+      opacity: 0.05;
+      transform: translate(-50%, -50%) scale(0.8);
+    }
+    to {
+      opacity: 0.15;
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+  }
+
+  /* Problem section slide-in */
+  .comparison-box {
+    animation: slideInFromSide linear forwards;
+    animation-timeline: view();
+    animation-range: entry 0% entry 50%;
+  }
+
+  .linear-chat {
+    --slide-direction: -30px;
+  }
+
+  .branching-chat {
+    --slide-direction: 30px;
+  }
+
+  @keyframes slideInFromSide {
+    from {
+      opacity: 0;
+      transform: translateX(var(--slide-direction, 0));
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Steps timeline progress */
+  .steps-container::before {
+    animation: timelineGrow linear forwards;
+    animation-timeline: view();
+    animation-range: entry 20% cover 80%;
+    transform-origin: top center;
+  }
+
+  @keyframes timelineGrow {
+    from {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+    to {
+      transform: scaleY(1);
+      opacity: 0.3;
+    }
+  }
+}
+
+/* Fallback for browsers without scroll-timeline support */
+@supports not (animation-timeline: scroll()) {
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .animate-on-scroll.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===========================
+   25. ENHANCED HOVER STATES
+   =========================== */
+
+/* Magnetic button effect base */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn-primary:hover::before {
+  transform: translateX(100%);
+}
+
+/* Card hover glow effect */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(217, 119, 87, 0.1) 0%,
+    transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.glass-card:hover::before {
+  opacity: 1;
+}
+
+/* Link underline animation */
+.nav-links a {
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* ===========================
+   26. MICRO-INTERACTIONS
+   =========================== */
+
+/* Button press effect */
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Input focus glow */
+input:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-glow), 0 0 20px rgba(217, 119, 87, 0.1);
+}
+
+/* Card lift on focus-within */
+.glass-card:focus-within {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+}
+
+/* Smooth icon transitions */
+.feature-icon svg,
+.access-option-icon svg {
+  transition: transform 0.3s ease, stroke 0.3s ease;
+}
+
+.feature-card:hover .feature-icon svg,
+.access-option:hover .access-option-icon svg {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+/* Loading skeleton pulse */
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-elevated) 50%, var(--bg-surface) 75%);
+  background-size: 200% 100%;
+  animation: skeletonPulse 1.5s ease-in-out infinite;
 }
